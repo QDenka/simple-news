@@ -16,7 +16,9 @@ class RegisterTest extends TestCase
 
     public function testRegisterSuccess()
     {
-        $response = $this->post('/register', [
+        $response = $this->post(
+            '/register',
+            [
                 'name' => 'Test User',
                 'email' => 'example@example.com',
                 'password' => 'password',

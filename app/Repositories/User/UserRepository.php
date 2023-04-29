@@ -33,6 +33,7 @@ class UserRepository extends BaseRepository
         $this->model->update([
             'name' => $data['name'],
         ]);
+
         return $this->model;
     }
 }

@@ -5,8 +5,6 @@ namespace App\Models\News;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Facades\Auth;
 
 class News extends Model
 {
@@ -17,7 +15,7 @@ class News extends Model
     protected $fillable = [
         'title',
         'content',
-        'user_id'
+        'user_id',
     ];
 
     /**

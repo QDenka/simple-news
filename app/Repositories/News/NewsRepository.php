@@ -29,6 +29,8 @@ class NewsRepository extends BaseRepository implements UserableContract
                 'user_id' => Auth::id(),
             ]
         );
+
+        // @phpstan-ignore-next-line
         $createdData->categories()->attach($data['category_ids']);
 
         return $createdData;
@@ -41,6 +43,7 @@ class NewsRepository extends BaseRepository implements UserableContract
     public function delete(): bool
     {
         $this->checkUser();
+
         return parent::delete();
     }
 
@@ -56,7 +59,10 @@ class NewsRepository extends BaseRepository implements UserableContract
             'title' => $data['title'],
             'content' => $data['content'],
         ]);
+
+        // @phpstan-ignore-next-line
         $this->model->categories()->sync($data['category_ids']);
+
         return $this->model;
     }
 
@@ -66,6 +72,7 @@ class NewsRepository extends BaseRepository implements UserableContract
      */
     public function checkUser(): void
     {
+        // @phpstan-ignore-next-line
         if ($this->model->user_id != Auth::id()) {
             throw new NoAccessToNewsException();
         }

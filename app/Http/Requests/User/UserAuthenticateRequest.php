@@ -3,8 +3,8 @@
 namespace App\Http\Requests\User;
 
 use App\DataTransferObjects\User\AuthenticateDto;
-use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\DtoRequestContract;
+use Illuminate\Foundation\Http\FormRequest;
 
 class UserAuthenticateRequest extends FormRequest implements DtoRequestContract
 {

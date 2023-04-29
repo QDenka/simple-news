@@ -47,7 +47,7 @@ class NewsTest extends TestCase
     {
         $token = app(AuthenticateService::class)->authenticate('test@kaban.dev', 'password');
         $response = $this->delete('/api/news/1', headers: [
-            'Authorization' => 'Bearer token'
+            'Authorization' => 'Bearer token',
         ]);
 
         $response->assertStatus(200);

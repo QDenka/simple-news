@@ -3,10 +3,10 @@
 namespace App\Services\User;
 
 use App\DataTransferObjects\User\RegisterDto;
-use App\Models\User\User;
 use App\Repositories\User\UserRepository;
 use App\Services\User\Contracts\CreateUserContract;
 use App\Services\User\Contracts\RegisterContract;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 
 class RegisterService implements RegisterContract, CreateUserContract
@@ -30,10 +30,10 @@ class RegisterService implements RegisterContract, CreateUserContract
     }
 
     /**
-     * @return User
+     * @return Model
      * @throws \Throwable
      */
-    public function createUser(): User
+    public function createUser(): Model
     {
         return (new UserRepository)->create(
             [

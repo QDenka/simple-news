@@ -40,5 +40,6 @@ abstract class BaseRepository
     }
 
     abstract public function create(array $data): Model;
+
     abstract public function update(array $data): Model;
 }

@@ -2,12 +2,12 @@
 
 namespace App\Services\User\Contracts;
 
-use App\Models\User\User;
+use Illuminate\Database\Eloquent\Model;
 
 interface CreateUserContract
 {
     /**
-     * @return User
+     * @return Model
      */
-    public function createUser(): User;
+    public function createUser(): Model;
 }

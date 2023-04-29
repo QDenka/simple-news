@@ -11,8 +11,7 @@ class AuthenticateDto
     public function __construct(
         protected string $email,
         protected string $password,
-    )
-    {
+    ) {
     }
 
     /**

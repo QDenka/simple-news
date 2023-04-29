@@ -13,8 +13,7 @@ class RegisterDto
         protected string $name,
         protected string $email,
         protected string $password,
-    )
-    {
+    ) {
     }
 
     /**

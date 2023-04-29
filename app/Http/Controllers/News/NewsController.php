@@ -41,7 +41,7 @@ class NewsController extends Controller
     {
         $news = $this->repository
             ->initByModel($news)
-            ->update($request->toArray(), $news);
+            ->update($request->toArray());
 
         return $this->success($news->toArray());
     }
