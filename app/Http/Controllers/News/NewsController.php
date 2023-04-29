@@ -3,57 +3,47 @@
 namespace App\Http\Controllers\News;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\News\NewsStoreRequest;
 use App\Models\News\News;
-use Illuminate\Http\Request;
+use App\Repositories\News\NewsRepository;
 
 class NewsController extends Controller
 {
+    public function __construct(protected NewsRepository $repository)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return $this->success(
+            $this->repository->get()->toArray(),
+        );
     }
 
     /**
-     * Show the form for creating a new resource.
+     * @param NewsStoreRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function create()
+    public function store(NewsStoreRequest $request)
     {
-        //
-    }
+        $news = $this->repository->create($request->toArray());
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(News $news)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(News $news)
-    {
-        //
+        return $this->success($news->toArray());
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, News $news)
+    public function update(NewsStoreRequest $request, News $news)
     {
-        //
+        $news = $this->repository
+            ->initByModel($news)
+            ->update($request->toArray(), $news);
+
+        return $this->success($news->toArray());
     }
 
     /**
@@ -61,6 +51,12 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
-        //
+        $this->repository
+            ->initByModel($news)
+            ->delete();
+
+        return $this->success([
+            'message' => 'News deleted successfully',
+        ]);
     }
 }
