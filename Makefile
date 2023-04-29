@@ -34,7 +34,8 @@ app:
 migrate:
 	docker compose exec app php artisan migrate
 fresh:
-	docker compose exec app php artisan migrate:fresh --seed
+	docker compose exec app php artisan migrate:fresh
+	@make seed
 seed:
 	docker compose exec app php artisan db:seed
 rollback-test:

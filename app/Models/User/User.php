@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Models\News\News;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -40,6 +41,14 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function news(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(News::class, 'user_id');
+    }
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
