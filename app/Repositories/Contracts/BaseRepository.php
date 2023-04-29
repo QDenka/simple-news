@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Contracts;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseRepository
@@ -23,9 +24,9 @@ abstract class BaseRepository
     }
 
     /**
-     * @return Model
+     * @return Collection
      */
-    public function get(): Model
+    public function get(): Collection
     {
         return $this->model->get();
     }

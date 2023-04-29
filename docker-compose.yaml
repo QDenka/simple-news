@@ -10,9 +10,6 @@ services:
       - appdata:/var/www
     networks:
       - news_network
-    depends_on:
-      - simple_news_mysql
-      - simple_news_web
     restart: on-failure
 
   web:
@@ -54,6 +51,6 @@ volumes:
     driver_opts:
       type: "none"
       o: "bind"
-      device: "${PWD}"
+      device: "."
   mysql_data:
     driver: local

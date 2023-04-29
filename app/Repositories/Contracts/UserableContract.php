@@ -7,5 +7,5 @@ interface UserableContract
     /**
      * @return void
      */
-    public function withUser(): void;
+    public function checkUser(): void;
 }

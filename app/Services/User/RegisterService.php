@@ -4,8 +4,10 @@ namespace App\Services\User;
 
 use App\DataTransferObjects\User\RegisterDto;
 use App\Models\User\User;
+use App\Repositories\User\UserRepository;
 use App\Services\User\Contracts\CreateUserContract;
 use App\Services\User\Contracts\RegisterContract;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterService implements RegisterContract, CreateUserContract
 {
@@ -13,13 +15,13 @@ class RegisterService implements RegisterContract, CreateUserContract
 
     /**
      * @param RegisterDto $registerData
-     * @return bool|string|void
+     * @return bool|string
      * @throws \Throwable
      */
     public function register(RegisterDto $registerData): bool|string
     {
         $this->registerData = $registerData;
-        $user = $this->createUser();
+        $this->createUser();
 
         return app(AuthenticateService::class)->authenticate(
             $this->registerData->getEmail(),
@@ -33,12 +35,12 @@ class RegisterService implements RegisterContract, CreateUserContract
      */
     public function createUser(): User
     {
-        $user = new User();
-        $user->name = $this->registerData->getName();
-        $user->email = $this->registerData->getEmail();
-        $user->password = $this->registerData->getPassword();
-        $user->saveOrFail();
-
-        return $user;
+        return (new UserRepository)->create(
+            [
+                'name' => $this->registerData->getName(),
+                'email' => $this->registerData->getEmail(),
+                'password' => Hash::make($this->registerData->getPassword()),
+            ]
+        );
     }
 }

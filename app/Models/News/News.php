@@ -3,12 +3,15 @@
 namespace App\Models\News;
 
 use App\Models\User\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Auth;
 
 class News extends Model
 {
+    use HasFactory;
+
     protected $table = 'news';
 
     protected $fillable = [
@@ -31,13 +34,5 @@ class News extends Model
     public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'news_categories', 'news_id', 'category_id');
-    }
-
-    /**
-     * @return Builder
-     */
-    public function scopeWithUser(): Builder
-    {
-        return $this->where('user_id', Auth::id());
     }
 }

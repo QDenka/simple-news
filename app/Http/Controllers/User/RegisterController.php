@@ -15,10 +15,11 @@ class RegisterController extends Controller
      */
     public function register(UserRegisterRequest $request): \Illuminate\Http\JsonResponse
     {
-        app(RegisterService::class)->register($request->toDto());
+        $token = app(RegisterService::class)->register($request->toDto());
 
         return $this->success([
             'message' => 'Successfully registered',
+            'token' => $token,
         ]);
     }
 }

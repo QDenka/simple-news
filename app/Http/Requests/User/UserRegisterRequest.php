@@ -26,7 +26,7 @@ class UserRegisterRequest extends FormRequest implements DtoRequestContract
         return [
             'name' => ['required', 'string'],
             'email' => ['required', 'string', 'email', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:6'],
+            'password' => ['required', 'string', 'confirmed', 'min:6'],
         ];
     }
 

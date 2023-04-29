@@ -2,6 +2,7 @@
 
 namespace App\Repositories\News;
 
+use App\Exceptions\User\NoAccessToNewsException;
 use App\Models\News\News;
 use App\Repositories\Contracts\BaseRepository;
 use App\Repositories\Contracts\UserableContract;
@@ -24,7 +25,7 @@ class NewsRepository extends BaseRepository implements UserableContract
         $createdData = $this->model->create(
             [
                 'title' => $data['title'],
-                'description' => $data['description'],
+                'content' => $data['content'],
                 'user_id' => Auth::id(),
             ]
         );
@@ -35,19 +36,25 @@ class NewsRepository extends BaseRepository implements UserableContract
 
     /**
      * @return bool
+     * @throws NoAccessToNewsException
      */
     public function delete(): bool
     {
-        $this->model = $this->model->withUser();
+        $this->checkUser();
         return parent::delete();
     }
 
+    /**
+     * @param array $data
+     * @return Model
+     * @throws NoAccessToNewsException
+     */
     public function update(array $data): Model
     {
-        $this->withUser();
+        $this->checkUser();
         $this->model->update([
             'title' => $data['title'],
-            'description' => $data['description'],
+            'content' => $data['content'],
         ]);
         $this->model->categories()->sync($data['category_ids']);
         return $this->model;
@@ -55,9 +62,12 @@ class NewsRepository extends BaseRepository implements UserableContract
 
     /**
      * @return void
+     * @throws NoAccessToNewsException
      */
-    public function withUser(): void
+    public function checkUser(): void
     {
-        $this->model = $this->model->withUser();
+        if ($this->model->user_id != Auth::id()) {
+            throw new NoAccessToNewsException();
+        }
     }
 }
