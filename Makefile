@@ -2,7 +2,6 @@ init:
 	@make build
 	@make up
 	docker compose exec app composer install
-	docker compose exec app cp .env.example .env
 	docker compose exec app php artisan key:generate
 	docker compose exec app php artisan storage:link
 	docker compose exec app php artisan jwt:secret
@@ -30,8 +29,6 @@ ps:
 	docker compose ps
 logs:
 	docker compose logs
-web:
-	docker compose exec target_crm_web bash
 app:
 	docker compose exec app bash
 migrate:
@@ -64,8 +61,6 @@ db:
 	docker compose exec mysql bash
 sql:
 	docker compose exec mysql bash -c 'mysql -u $$MYSQL_USER -p$$MYSQL_PASSWORD $$MYSQL_DATABASE'
-redis:
-	docker compose exec redis redis-cli
 ide-helper:
 	docker compose exec app php artisan clear-compiled
 	docker compose exec app php artisan ide-helper:generate

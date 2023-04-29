@@ -28,4 +28,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN chown -R www-data:www-data /var/www/html
 
-CMD bash -c "cron && php-fpm"
+CMD bash -c "php-fpm"
