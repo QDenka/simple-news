@@ -1,0 +1,59 @@
+version: "3.8"
+services:
+  app:
+    container_name: simple_news_app
+    build:
+      context: docker/simple-news-app
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    volumes:
+      - appdata:/var/www
+    networks:
+      - news_network
+    depends_on:
+      - simple_news_mysql
+      - simple_news_web
+    restart: on-failure
+
+  web:
+    container_name: simple_news_web
+    build:
+      context: docker/simple-news-web
+      dockerfile: Dockerfile
+    working_dir: /var/www/html
+    ports:
+      - "${WEB_PORT:-80}:80"
+    networks:
+      - news_network
+    restart: on-failure
+
+  mysql:
+    container_name: simple_news_mysql
+    image: mysql:8.0
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    networks:
+      - news_network
+    restart: on-failure
+
+networks:
+  news_network:
+    driver: bridge
+
+volumes:
+  appdata:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "${PWD}"
+  mysql_data:
+    driver: local
