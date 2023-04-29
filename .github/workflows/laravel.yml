@@ -31,8 +31,14 @@ jobs:
         mkdir -p database
         touch database/database.sqlite
     - name: Make migrations
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
       run: php artisan migrate
     - name: Make seeders
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
       run: php artisan db:seed
     - name: Check codestyle, phpstan
       run: composer check
